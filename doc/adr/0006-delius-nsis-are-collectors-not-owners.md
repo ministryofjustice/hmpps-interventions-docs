@@ -60,7 +60,7 @@ we treat Delius NSIs as the **collector** of intervention activities, not the ow
 the relevant NSI based on the referral's UUID.
 
 👉 We will store the UUID of our intervention referral directly on the NSI
-(currently, only possible in the notes field).
+(currently, only possible in the notes field). (_Edit 2 Nov 2021_: This field is now called `external_reference` in Delius)
 
 👉 We will use [URNs][urn] to do so, in the form of `urn:hmpps:interventions-referral:{intervention-uuid}`,
 for example `urn:hmpps:interventions-referral:3355304d-10d5-4e0e-9212-323fb2de2d5d`.
