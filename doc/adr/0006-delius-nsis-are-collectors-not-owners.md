@@ -6,7 +6,7 @@ Written: 2021-08-04
 
 ## Status
 
-Approved
+Accepted
 
 ## Context
 
