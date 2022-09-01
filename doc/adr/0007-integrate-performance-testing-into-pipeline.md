@@ -62,7 +62,7 @@ Will not guard against:
 
 As of today, we get about around 23-25 requests per second, assets and operational endpoints excluded.
 
-The (Gatling tooling) can define that we want N number of journeys to complete per a specific period.
+The (Gatling) tooling can define that we want N number of journeys to complete per second.
 
 We need to define our success in aggregate. For example, "98% of dashboard calls to this user are under 2 seconds".
 
