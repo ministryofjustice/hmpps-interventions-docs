@@ -1,0 +1,60 @@
+---
+title: Integrations
+weight: 21
+last_reviewed_on: 2022-09-01
+review_in: 3 months
+---
+
+# Integrations
+
+The service relies on many other services.
+
+🎗 Please validate these against the [backstage](https://backstage.io/) definitions for the [UI][bs-ui], [API][bs-svc]
+and other live components.
+
+
+## Domain services
+
+Used to display or process someone's information that does not belong in interventions.
+
+| API | Responsibility
+| - | -
+| [community-api](https://github.com/ministryofjustice/community-api) | Reading personal details, someone's responsible officers, officer teams.<br>Writing activities (NSIs), appointments, appointment outcomes, and progress notifications.
+| [hmpps-assess-risk-and-needs](https://github.com/ministryofjustice/hmpps-assess-risks-and-needs) | Reading risk information.<br>Writing supplementary (redacted) risk information.
+
+
+## Platform services
+
+For features shared across many services.
+
+| API | Responsibility
+| - | -
+| [hmpps-auth](https://github.com/ministryofjustice/hmpps-auth) | Authenticating and authorising users given their roles and groups.<br>Issuing JWT tokens.
+| [token-verification-api](https://github.com/ministryofjustice/token-verification-api) | Validating issued tokens.
+
+
+## Data transfers
+
+We need to transfer our data for further processing. This is done via CronJobs:
+
+| CronJob | Responsibility
+|-|-
+| [cronjob/data-extractor-analytics](https://github.com/ministryofjustice/hmpps-interventions-service/blob/main/helm_deploy/hmpps-interventions-service/templates/cronjob-data-extractor-analytics.yaml) | Daily snapshot of raw data, transferred to the [Analytical Platform](https://user-guidance.services.alpha.mojanalytics.xyz/).<br>Used for data cleansing, exploratory analysis and further processing.
+| [cronjob/generate-ndmis-performance-report](https://github.com/ministryofjustice/hmpps-interventions-service/blob/main/helm_deploy/hmpps-interventions-service/templates/cronjob-ndmis-performance-report.yaml) | Daily snapshot of transformed data, transferred to National Delius Management Information System (NDMIS).<br>Used for business reporting.
+
+
+[bs-svc]: https://github.com/ministryofjustice/hmpps-interventions-service/blob/main/catalog-info.yaml
+[bs-ui]: https://github.com/ministryofjustice/hmpps-interventions-ui/blob/main/catalog-info.yaml
+
+
+## Static and mapping data
+
+These are data sources that are either indirectly used or embedded in our applications.
+
+| Dataset | Responsibility
+|-|-
+| [NSI to contract type mapping](https://github.com/ministryofjustice/community-api/blob/1c6ec895e2679f19dfb571fb4c486a0dea4355ed/src/main/resources/application.yml#L122) | Mapping between *intervention contract type* and *nDelius NSI type* identifiers.<br>Maintained in the linked code.
+| [Probation office data](https://github.com/ministryofjustice/hmpps-reference-data/blob/main/registers/probation-offices-v0.csv) | Mapping to *nDelius location* identifiers.<br>List of probation offices.<br>UI application has a file copy.
+| [Probation regions](https://github.com/ministryofjustice/hmpps-reference-data/blob/main/registers/probation-regions-v0.csv) | List of probation service regions.<br>API database has a copy.
+| [Police and crime commissioner (PCC) regions](https://github.com/ministryofjustice/hmpps-reference-data/blob/main/registers/pcc-regions-for-probation-v0.csv) | List of the probation-specific Police and crime commissioner (PCC) regions, used for Commissioned Rehabilitative Services (CRS).<br>API database has a copy.
+| 🔐 [Interventions seed data](https://github.com/ministryofjustice/hmpps-interventions-seed-data) | Repository to populate contract, prime provider, subcontractor and intervention data.<br>Used as-is.
