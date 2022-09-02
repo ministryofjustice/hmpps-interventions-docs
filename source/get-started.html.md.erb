@@ -1,0 +1,53 @@
+---
+title: Get started
+weight: 20
+last_reviewed_on: 2022-09-01
+review_in: 3 months
+---
+
+# Get started
+
+You will need a [GitHub account with Ministry of Justice organisation access](https://technical-guidance.service.justice.gov.uk/documentation/standards/storing-source-code.html#github-access).
+
+Afterwards, please request to join the [@ministryofjustice/hmpps-interventions-dev](https://github.com/orgs/ministryofjustice/teams/hmpps-interventions-dev) GitHub team.
+
+## GitHub repositories
+
+The service has small components in separate GitHub repositories.
+
+Live components:
+
+- [Domain API](https://github.com/ministryofjustice/hmpps-interventions-service)
+- [Refer and monitor an intervention UI](https://github.com/ministryofjustice/hmpps-interventions-ui)
+- [Operational scripts](https://github.com/ministryofjustice/hmpps-interventions-ops)
+
+Proposed, not live components:
+
+- [Domain event listener and Delius translator](https://github.com/ministryofjustice/hmpps-delius-interventions-event-listener)
+- [Intervention onboarding service](https://github.com/ministryofjustice/hmpps-interventions-onboarding)
+
+Supporting components:
+
+- [Interventions seed data](https://github.com/ministryofjustice/hmpps-interventions-seed-data) (to be deprecated in favour of the onboarding service above)
+
+
+## Operational and data access
+
+To gain access, [authenticate to the Kubernetes cluster](https://user-guide.cloud-platform.service.justice.gov.uk/documentation/getting-started/kubectl-config.html).
+
+To verify access, run
+
+```
+$ kubectl get pods --namespace hmpps-interventions-dev
+```
+
+You should see:
+
+```
+NAME                                                              READY   STATUS             RESTARTS   AGE
+hmpps-delius-interventions-event-listener-6c5f8d5db8-hkbcj        1/1     Running            0          5h52m
+hmpps-interventions-onboarding-c5f4f754d-n8kn7                    1/1     Running            0          4h41m
+hmpps-interventions-onboarding-c5f4f754d-pt7jd                    1/1     Running            0          4h41m
+hmpps-interventions-service-api-65db4bcbdc-qrwwp                  1/1     Running            0          26h
+{etc}
+```
