@@ -1,0 +1,26 @@
+---
+title: Refresh pre-prod
+weight: 41
+last_reviewed_on: 2022-09-05
+review_in: 1 year
+---
+
+# Refresh pre-prod
+
+### Observed behaviour
+
+Data on _pre-prod_ does not have up-to-date data for an investigtation.
+(For data analysis, please use the analytical or modernisation platform.)
+
+### Desired behaviour
+
+To refresh the _pre-prod_ environment with the current up-to-date _production_ data.
+
+<%= warning_text("Do not execute during deployments, migrations and load spikes.") %>
+
+### Actions
+
+```
+kubectl create job --namespace=hmpps-interventions-prod \
+  --from=cronjob.batch/db-refresh-job "refresh-now-$(date +'%s')"
+```
