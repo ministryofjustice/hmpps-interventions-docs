@@ -1,0 +1,59 @@
+---
+title: Trigger scheduled jobs
+weight: 42
+last_reviewed_on: 2022-09-05
+review_in: 1 year
+---
+
+# Trigger scheduled jobs
+
+### Desired behaviour
+
+One of the scheduled jobs needs to be re-run immediately.
+
+### Actions
+
+1. #### Stop the job if it is running:
+
+    Check the active jobs:
+
+    ```
+    kubectl get jobs --namespace=hmpps-interventions-{namespace}
+    ```
+
+    If it _is_ running, delete it with `kubectl delete jobs/{name}`.
+
+    <%= warning_text("Jobs are not written with concurrency in mind. It is unsafe to run them concurrently.") %>
+
+
+1. #### Find the job you need to execute:
+
+    ```
+    $ kubectl get cronjobs --namespace=hmpps-interventions-{namespace}
+    ```
+
+    For example, on _pre-prod_:
+
+    ```
+    $ kubectl get cronjobs --namespace=hmpps-interventions-preprod
+    NAME                                SCHEDULE     SUSPEND   ACTIVE   LAST SCHEDULE   AGE
+    data-extractor-analytics            0 1 * * *    False     0        11h             277d
+    generate-ndmis-performance-report   30 0 * * *   False     0        12h             277d
+    ```
+
+
+1. #### Trigger an immediate execution of the job:
+
+    ```
+    $ kubectl create job --namespace=hmpps-interventions-{namespace} \
+      --from=cronjob.batch/{name} "{name}-$(date +'%s')"
+    ```
+
+    The new job will be timestamped (`date +'%s'`) so it is trackable.
+
+    For example, triggering a `data-extractor-analytics` job on _pre-prod_:
+
+    ```
+    $ kubectl create job --namespace=hmpps-interventions-preprod \
+      --from=cronjob.batch/data-extractor-analytics "data-extractor-analytics-$(date +'%s')"
+    ```
