@@ -1,0 +1,54 @@
+---
+title: Connect to pre-production data
+weight: 40
+last_reviewed_on: 2022-09-07
+review_in: 1 year
+---
+
+# Connect to pre-production data
+
+### Problem
+
+We cannot use _production_ data directly, but we must observe the data.
+
+Please see [operational restrictions](../principles.html#operational-restrictions).
+
+Consider [refreshing preprod](./refresh-preprod.html) if you need more up-to-date data.
+
+### Actions
+
+<%= warning_text("Please read <a href=\"https://security-guidance.service.justice.gov.uk/data-handling-and-information-sharing-guide/#data-at-rest-on-moj-issued-laptops\">data at rest on MoJ-issued laptops</a> for guidance on storing sensitive data (query output).") %>
+
+Use the port forwarding script from [the operational scripts][ops-repo].
+
+```
+./setup_preprod_port_forward.sh
+```
+
+You should see:
+
+```
+{snip}
+Forwarding from 127.0.0.1:5433 -> 5432
+Forwarding from [::1]:5433 -> 5432
+```
+
+Then, you can connect locally:
+
+```
+psql -h localhost -p 5433 -U cpS00AbRsu dba326b0ca8eb97132
+```
+
+The password to use is in:
+
+```
+cloud-platform decode-secret \
+  --secret=postgres \
+  --namespace=hmpps-interventions-preprod
+```
+
+`cloud-platform` is the [Cloud Platform CLI tool][cli].
+
+
+[ops-repo]: https://github.com/ministryofjustice/hmpps-interventions-ops
+[cli]: https://github.com/ministryofjustice/cloud-platform-cli#install
