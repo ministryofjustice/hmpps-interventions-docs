@@ -8,3 +8,10 @@ review_in: 1 year
 # Runbooks and tasks
 
 Collection of typical tasks and recurring issues.
+
+<ul>
+  <% sitemap.resources.select { |resource| resource.path.start_with?("runbooks/") }.sort_by { |r| r.data.weight }.each do |resource| %>
+    <% next if resource.path == current_path %>
+    <li><%= link_to resource.data.title, resource, :relative => true %></li>
+  <% end %>
+</ul>
