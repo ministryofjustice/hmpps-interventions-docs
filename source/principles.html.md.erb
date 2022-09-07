@@ -7,6 +7,14 @@ review_in: 3 months
 
 # Principles
 
+## Operational restrictions
+
+- Do **not** access production data directly, except for emergencies.
+- **Never** run `psql` in a pod on _preprod_ or _prod_ namespaces.
+  All input and output are logged and can easily lead to a breach of personal data.
+
+Instead, rely on [port-forwarding from preprod](./runbooks/connect-to-preprod.html).
+
 
 ## Inherited principles
 
