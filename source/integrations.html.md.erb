@@ -12,6 +12,26 @@ The service relies on many other services.
 🎗 Please validate these against the [backstage](https://backstage.io/) definitions for the [UI][bs-ui], [API][bs-svc]
 and other live components.
 
+## Diagrams
+
+#### [Container diagram](https://c4model.com/#ContainerDiagram)
+
+<%#
+  The SVG contains an embedded definition from https://draw.io.
+
+  How to edit:
+  1. Open https://draw.io
+  2. File > Open from > Device...
+  3. Load the SVG
+  4. Make changes
+  5. File > Export as > SVG...
+  6. Check "Include a copy of my diagram"
+  7. Check "Transparent Background"
+  8. Export
+  9. Download
+  10. Move to ./images
+%>
+![Container diagram](images/interventions_container_diagram.drawio.svg)
 
 ## Domain services
 
@@ -31,6 +51,7 @@ For features shared across many services.
 | - | -
 | [hmpps-auth](https://github.com/ministryofjustice/hmpps-auth) | Authenticating and authorising users given their roles and groups.<br>Issuing JWT tokens.
 | [token-verification-api](https://github.com/ministryofjustice/token-verification-api) | Validating issued tokens.
+| [GOV.uk notify](https://www.notifications.service.gov.uk/) | Sending emails.
 
 
 ## Data transfers
