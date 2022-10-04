@@ -1,8 +1,8 @@
 ---
 title: Integrations
 weight: 21
-last_reviewed_on: 2022-09-01
-review_in: 3 months
+last_reviewed_on: 2022-10-04
+review_in: 6 months
 ---
 
 # Integrations
@@ -58,9 +58,10 @@ For features shared across many services.
 
 We need to transfer our data for further processing. This is done via CronJobs:
 
-| CronJob | Responsibility
+| Component | Responsibility
 |-|-
 | [cronjob/data-extractor-analytics](https://github.com/ministryofjustice/hmpps-interventions-service/blob/main/helm_deploy/hmpps-interventions-service/templates/cronjob-data-extractor-analytics.yaml) | Daily snapshot of raw data, transferred to the [Analytical Platform](https://user-guidance.services.alpha.mojanalytics.xyz/).<br>Used for data cleansing, exploratory analysis and further processing.
+| 🔐 [moj-analytical-services/create-a-derived-table](https://github.com/moj-analytical-services/create-a-derived-table/pull/79/files) | Uses [dbt](https://docs.getdbt.com/) for data modelling to create a [star schema](https://en.wikipedia.org/wiki/Star_schema).<br>Transformed data is propagated further for business intelligence.
 | [cronjob/generate-ndmis-performance-report](https://github.com/ministryofjustice/hmpps-interventions-service/blob/main/helm_deploy/hmpps-interventions-service/templates/cronjob-ndmis-performance-report.yaml) | Daily snapshot of transformed data, transferred to National Delius Management Information System (NDMIS).<br>Used for business reporting.
 
 
