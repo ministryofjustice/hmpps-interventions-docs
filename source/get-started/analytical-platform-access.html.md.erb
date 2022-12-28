@@ -1,0 +1,68 @@
+---
+title: Analytical Platform data access
+weight: 21
+last_reviewed_on: 2022-12-28
+review_in: 6 months
+---
+
+# Analytical Platform data access
+
+Our data is extracted daily into the Analytical Platform, where it is further processed. (For _how_ this is done, please
+refer to [the Integrations page](../integrations.html).)
+
+### Access checklist
+
+1. Ensure you have a GitHub account [with **digital.justice.gov.uk** email and multi-factor authentication](https://user-guidance.services.alpha.mojanalytics.xyz/get-started.html#1-github-account).
+1. Request to add your GitHub account to the [**moj-analytical-services** organisation](https://user-guidance.services.alpha.mojanalytics.xyz/get-started.html#request-an-account-from-the-analytical-platform-team).
+
+### Control Panel user
+
+Once you are in the Analytical Platform organisation:
+
+1. Log in to the [control panel](https://controlpanel.services.analytical-platform.service.justice.gov.uk/), which will be your starting point for all interactions.
+1. Set up [multi-factor authentication](https://user-guidance.services.alpha.mojanalytics.xyz/get-started.html#configure-two-factor-authentication-for-the-analytical-platform).
+1. Ensure you fully log in **at least once**, as it creates your user for the following steps.
+
+If you succeeded, you should see a similar screen:
+![control panel screenshot](images/ap-control-panel.png)
+
+### Production data access
+
+<%= warning_text("The default permissions only let you access non-sensitive data.") %>
+
+1. If you require access to live data, add your username under `users` in [data-engineering-database-access project](https://github.com/moj-analytical-services/data-engineering-database-access/blob/main/project_access/InterventionsDatabaseAccess.yaml).
+
+    For example, if your GitHub user is `perlarem1`, [add it to the end](https://github.com/moj-analytical-services/data-engineering-database-access/commit/4faf03f57055c84bdbc12d693f429f3d8d461f34).
+
+### Test browse data
+
+1. Log in to the [control panel](https://controlpanel.services.analytical-platform.service.justice.gov.uk/).
+1. Click on the _"You can access AWS services such as S3 and Athena via the AWS Console"_ link at the bottom (you may need to scroll down).
+1. You should see the AWS console, similar to this:
+   ![AWS console screenshot](images/ap-aws-console.png)
+1. Go to the Search bar and search for `athena`:
+   ![AWS search for Athena screenshot](images/ap-aws-console-search-athena.png)
+1. Select "Athena", then select "Query your data", and "Launch query editor".
+1. Select `hmpps_interventions_prod` as the database (or `hmpps_interventions_dev` for testing)
+1. Try the following in the "Query" box:
+
+    ```sql
+    select reference_number, sent_at
+    from referral
+    where sent_at >= '2022-12-20'
+      and extraction_timestamp >= date_format(now(), '%Y%m%d')
+    order by sent_at desc
+    limit 5
+    ```
+
+1. You should see something similar to:
+   ![Athena sample result](images/ap-aws-athena-sample.png)
+
+### Concepts for querying data
+
+The language for querying data is called [SQL](https://moj-analytical-services.github.io/ap-tools-training/ITG.html#sql-training).
+
+Filtering for the `extraction_timestamp` is necessary as the Analytical Platform keeps a version of our data daily.
+
+If we had a record in the live service for five days, we would have five copies for that one record.
+To only fetch the latest, we need to add the `extraction_timestamp >= date_format(now(), '%Y%m%d')` filter in our queries.
