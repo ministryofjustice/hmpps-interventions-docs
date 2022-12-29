@@ -1,7 +1,7 @@
 ---
 title: Get started
 weight: 20
-last_reviewed_on: 2022-12-02
+last_reviewed_on: 2022-12-29
 review_in: 3 months
 ---
 
@@ -20,15 +20,10 @@ Live components:
 - [Domain API](https://github.com/ministryofjustice/hmpps-interventions-service)
 - [Refer and monitor an intervention UI](https://github.com/ministryofjustice/hmpps-interventions-ui)
 
-Proposed, not live components:
-
-- [Domain event listener and Delius translator](https://github.com/ministryofjustice/hmpps-delius-interventions-event-listener)
-- [Intervention onboarding service](https://github.com/ministryofjustice/hmpps-interventions-onboarding)
-
 Supporting components:
 
 - [Operational scripts](https://github.com/ministryofjustice/hmpps-interventions-ops)
-- [Interventions seed data](https://github.com/ministryofjustice/hmpps-interventions-seed-data) (to be deprecated in favour of the onboarding service above)
+- [Interventions seed data](https://github.com/ministryofjustice/hmpps-interventions-seed-data) (needs to be replaced with an onboarding service)
 
 Please refer to the [integrations page](./integrations.html) for an architecture diagram.
 
@@ -46,10 +41,13 @@ $ kubectl get pods --namespace hmpps-interventions-dev
 You should see something similar to the following:
 
 ```
-NAME                                                              READY   STATUS             RESTARTS   AGE
-hmpps-delius-interventions-event-listener-6c5f8d5db8-hkbcj        1/1     Running            0          5h52m
-hmpps-interventions-onboarding-c5f4f754d-n8kn7                    1/1     Running            0          4h41m
-hmpps-interventions-onboarding-c5f4f754d-pt7jd                    1/1     Running            0          4h41m
-hmpps-interventions-service-api-65db4bcbdc-qrwwp                  1/1     Running            0          26h
-{etc}
+NAME                                                              READY   STATUS    RESTARTS   AGE
+hmpps-interventions-service-api-695f975db9-9mrqp                  1/1     Running   0          113m
+hmpps-interventions-service-api-695f975db9-psgvl                  1/1     Running   0          113m
+hmpps-interventions-service-dashboard-74b4d46784-l6hsj            1/1     Running   0          113m
+hmpps-interventions-service-dashboard-74b4d46784-t6m5f            1/1     Running   0          113m
+hmpps-interventions-service-data-dictionary-5d8964f888-l4k2b      1/1     Running   0          113m
+hmpps-interventions-service-performance-report-5dc87645bf-8jxf5   1/1     Running   0          113m
+hmpps-interventions-ui-5cb9cfc88b-7mkfd                           1/1     Running   0          16m
+hmpps-interventions-ui-5cb9cfc88b-ndsj5                           1/1     Running   0          16m
 ```
