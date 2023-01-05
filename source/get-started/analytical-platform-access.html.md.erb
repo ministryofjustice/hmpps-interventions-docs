@@ -1,7 +1,7 @@
 ---
 title: Analytical Platform data access
 weight: 21
-last_reviewed_on: 2022-12-28
+last_reviewed_on: 2023-01-05
 review_in: 6 months
 ---
 
@@ -26,13 +26,15 @@ Once you are in the Analytical Platform organisation:
 If you succeeded, you should see a similar screen:
 ![control panel screenshot](images/ap-control-panel.png)
 
-### Production data access
+### Data access
 
-<%= warning_text("The default permissions only let you access non-sensitive data.") %>
+1. Raise a pull request to add your username in the [standard access definition](https://github.com/moj-analytical-services/data-engineering-database-access#standard-database-access).
 
-1. If you require access to live data, add your username under `users` in [data-engineering-database-access project](https://github.com/moj-analytical-services/data-engineering-database-access/blob/main/project_access/InterventionsDatabaseAccess.yaml).
+    For example, if your GitHub user is `sldblog`, [add `alpha_user_sldblog` to the end](https://github.com/moj-analytical-services/data-engineering-database-access/commit/c4e91db5fd0501e9a7a312f12b5b049dd16af00a).
 
-    For example, if your GitHub user is `perlarem1`, [add it to the end](https://github.com/moj-analytical-services/data-engineering-database-access/commit/4faf03f57055c84bdbc12d693f429f3d8d461f34).
+1. Optionally, if you require access to live data, raise a pull request to add your username in the [project access definition](https://github.com/moj-analytical-services/data-engineering-database-access/blob/main/project_access/InterventionsDatabaseAccess.yaml).
+
+    For example, if your GitHub user is `perlarem1`, [add `alpha_user_perlarem1` to the end](https://github.com/moj-analytical-services/data-engineering-database-access/commit/4faf03f57055c84bdbc12d693f429f3d8d461f34).
 
 ### Test browse data
 
