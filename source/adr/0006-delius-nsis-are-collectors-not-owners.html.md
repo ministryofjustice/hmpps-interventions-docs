@@ -1,14 +1,21 @@
+---
+title: 6. Treat Delius NSIs as collectors, not owners of interventions
+weight: 76
+last_reviewed_on: 2021-05-27
+review_in: 1 year
+---
+
 # 6. Treat Delius NSIs as collectors, not owners of interventions
 
 Date: 2021-05-27
 
 Written: 2021-08-04
 
-## Status
+### Status
 
 Accepted
 
-## Context
+### Context
 
 To facilitate
 
@@ -28,7 +35,7 @@ Delius owns the person-on-probation appointments; but they are made _in context 
 
 Currently, this modelled through linking appointments and notifications to NSIs:
 
-![Delius relationships](./0006-delius-nsi-dependencies.drawio.svg)
+![Delius relationships](images/0006-delius-nsi-dependencies.drawio.svg)
 
 ❗️ **Problem**: if we were to store the link between interventions and Delius NSIs outside Delius,
 it would look as if Delius _created_ both appointments and referrals. We want Delius to
@@ -49,7 +56,7 @@ it would look as if Delius _created_ both appointments and referrals. We want De
     - this is applicable when the external service owns all business rules around who and when can create
       those activitites
 
-## Decision
+### Decision
 
 We choose option 2:
 
@@ -65,7 +72,7 @@ the relevant NSI based on the referral's UUID.
 👉 We will use [URNs][urn] to do so, in the form of `urn:hmpps:interventions-referral:{intervention-uuid}`,
 for example `urn:hmpps:interventions-referral:3355304d-10d5-4e0e-9212-323fb2de2d5d`.
 
-## Consequences
+### Consequences
 
 ❗️ **Consistency problem**: This decision semantically ties the NSI to be a consequence of the referral.
 Unfortunately, the NSI cannot be made read-only. If the NSI gets closed before the intervention referral is "done",

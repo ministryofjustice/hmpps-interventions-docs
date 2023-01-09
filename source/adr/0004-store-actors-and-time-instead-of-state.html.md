@@ -1,14 +1,21 @@
+---
+title: 4. Store time and actor information in data
+weight: 74
+last_reviewed_on: 2020-12-01
+review_in: 1 year
+---
+
 # 4. Store time and actor information in data
 
 Date: 2020-12-01
 
 Note: this is a backfilled decision, exact date unknown 😅
 
-## Status
+### Status
 
 Accepted
 
-## Context
+### Context
 
 Interventions data, initially for Commissioned Rehabilitative Services (CRS), will be analysed and used in reporting.
 
@@ -28,14 +35,14 @@ examination **after** the events happened.
 If we maintained state on the referral, it would mutate from draft to sent to waiting for supplier assessment, etc.
 Figuring out a state in the past would be difficult without historical data. That data may not be captured often enough.
 
-## Decision
+### Decision
 
 Store all domain events in the data layer as `_at` and `_by` fields on the corresponding tables.
 
 Avoid _persisted_ state fields as it makes accidental data hiding easier (the previous value is lost,
 and the logic behind the state change might have changed).
 
-## Consequences
+### Consequences
 
 Domain events also have a corresponding pair in the data:
 

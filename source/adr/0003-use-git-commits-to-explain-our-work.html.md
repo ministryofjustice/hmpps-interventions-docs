@@ -1,16 +1,23 @@
+---
+title: 3. Use Git commits to explain our work
+weight: 73
+last_reviewed_on: 2020-11-24
+review_in: 1 year
+---
+
 # 3. Use Git commits to explain our work
 
 Date: 2020-11-24
 
-## Status
+### Status
 
 Accepted
 
-## Context
+### Context
 
 We are going to be developing a new software system as a team.
 
-### Understanding decisions
+#### Understanding decisions
 
 At any point in time, our codebase will be an aggregate of many influences. It
 reflects, for example:
@@ -45,7 +52,7 @@ Every change to the codebase is accompanied by a Git commit. The commit message
 for this commit provides us with a space to explain any relevant context that
 lives behind the change.
 
-### Reviewing work
+#### Reviewing work
 
 When we develop software in a team, we spend quite a lot of time reviewing other
 developers’ code. Sometimes, multiple developers will review a single pull
@@ -64,7 +71,7 @@ pull requests. Merge commits stop the pull request from being a simple linear
 sequence of commits. Also, the diff of a merge commit, as presented by GitHub,
 can often be hard to understand.
 
-### The Git repository is probably immortal
+#### The Git repository is probably immortal
 
 There are other places where some of the codebase’s influences might be recorded
 — deliberately or not. For example, Trello cards and their comments, GitHub pull
@@ -73,7 +80,7 @@ to think that these tools will be around forever, but this is not true. The Git
 repository is the one of the few things that we can be pretty sure will be
 around for the lifetime of the project.
 
-## Decision
+### Decision
 
 When we open a pull request, we will make sure that we present our work with a
 Git commit history that tells a clear story of the work that we’ve done and why
@@ -91,7 +98,7 @@ sure that they continue to tell a useful story.
 When we merge a pull request into the main branch, we will preserve that pull
 request’s commits, and not squash them into a single commit.
 
-## Consequences
+### Consequences
 
 It takes time to produce good commits. It might take even more time if a
 developer needs to become familiar with some Git functionality that they haven’t

@@ -1,16 +1,23 @@
+---
+title: 2. Decouple with events
+weight: 72
+last_reviewed_on: 2020-11-02
+review_in: 1 year
+---
+
 # 2. Decouple with events
 
 Date: 2020-11-02
 
-## Status
+### Status
 
 Accepted
 
-## Context
+### Context
 
 The Dynamic Framework interventions are the first intervention type onboarded by this system.
 
-### Many new teams
+#### Many new teams
 
 In the current probation programme landscape, we expect
 
@@ -27,14 +34,14 @@ Specifically, we will have other teams to
 
 All of these teams would have interest in actions carried out in interventions.
 
-### Nature of probation
+#### Nature of probation
 
 Additionally, probation
 
 - reacts to what happened in real-life with the supervised service users,
 - has various priorities, depending on what happened.
 
-## Decision
+### Decision
 
 The above qualities point towards a decentralised way of integration and notifying each other.
 
@@ -58,7 +65,7 @@ For example, our events may be:
 - service user appointment booked
 - (many others)
 
-## Consequences
+### Consequences
 
 We will build our intervention services to emit known significant domain events by default.
 

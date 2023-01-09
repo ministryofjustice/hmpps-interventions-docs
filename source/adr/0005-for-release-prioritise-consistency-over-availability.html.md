@@ -1,12 +1,19 @@
+---
+title: 5. For release, prioritise consistency over availability
+weight: 75
+last_reviewed_on: 2021-06-03
+review_in: 1 year
+---
+
 # 5. For release, prioritise consistency over availability
 
 Date: 2021-06-03
 
-## Status
+### Status
 
 Accepted
 
-## Context
+### Context
 
 1. We have a fixed deadline
 1. We will have our first users week beginning 7 June 2021
@@ -24,12 +31,12 @@ create side effects, so we could retrigger those).
 We feel this would create an overhead that would be too much administrative burden together with
 the anticipated noise of most users starting the service at the same time.
 
-## Decision
+### Decision
 
 Due to the uncertainties and lack of convenient retry mechanism,
 we favour **consistency over availabilty** in the short term.
 
-## Consequences
+### Consequences
 
 In other words, we'd rather have the workflow block with an error, fix the problem, roll forward,
 ask the user to retry, than the alternative of having to collect and re-trigger by hand.
@@ -41,7 +48,7 @@ We assume this and the already sync appointment booking would capture the majori
 
 We recognise this is only a short term fix until we gain enough confidence.
 
-## We know we can roll this back when
+### We know we can roll this back when
 
 Whichever happens first:
 

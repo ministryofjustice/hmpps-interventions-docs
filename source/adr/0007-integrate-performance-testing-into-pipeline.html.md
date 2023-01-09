@@ -1,14 +1,21 @@
+---
+title: 7. Integrate performance testing into the continuous integration pipeline
+weight: 77
+last_reviewed_on: 2022-08-31
+review_in: 1 year
+---
+
 # 7. Integrate performance testing into the continuous integration pipeline
 
 Date: 2022-08-31
 
 
-## Status
+### Status
 
 Proposed
 
 
-## Context
+### Context
 
 We released memory-intensive code to production on July 2022, which caused a long outage.
 
@@ -22,7 +29,7 @@ The above led to a gap: we could detect slowing down over time, but **we cannot 
 changes to the service**.
 
 
-## Decision
+### Decision
 
 1. Introduce read-only<sup>6</sup> performance testing into the continuous integration pipeline:
 
@@ -41,12 +48,12 @@ changes to the service**.
    - Add an incident checklist about "would a performance test help detect this problem".
 
 
-### When will we know this succeeded?
+#### When will we know this succeeded?
 
 - When we revert the fix to the performance problems and see consistent failures on the performance tests.
 - When we re-apply the fix, we see passing tests.
 
-### What does this not solve?
+#### What does this not solve?
 
 Will not guard against:
 
@@ -56,9 +63,9 @@ Will not guard against:
 - Dependency failures, timeouts, server errors.
 
 
-## Consequences
+### Consequences
 
-### 1. Methodology
+#### 1. Methodology
 
 As of today, we get about around 23-25 requests per second, assets and operational endpoints excluded.
 
@@ -72,7 +79,7 @@ duplicating traffic from production is not in scope.
 |ℹ️ Consider synthetic load tests with aggregate success conditions.
 |-
 
-### 2. Tool
+#### 2. Tool
 
 Pre-production network access will be limited. Any testing tool we use needs to be able to be deployed on the
 target environment.
@@ -83,7 +90,7 @@ target environment.
 [Gatling](https://gatling.io/) looks to be a likely candidate. It is already used in HM Prison and Probation Service
 for _nDelius_ performance testing.
 
-### 3. Monitoring
+#### 3. Monitoring
 
 In case of genuine performance problems, we anticipate infrastructure and code alerts firing. They currently go to
 the [`#interventions-dev-notifications`](https://mojdt.slack.com/archives/C01F047EYA2) channel.
@@ -91,7 +98,7 @@ the [`#interventions-dev-notifications`](https://mojdt.slack.com/archives/C01F04
 |ℹ️ Consider how we can identify alerts caused by performance tests and how to identify real alerts.
 |-
 
-### 4. Dependencies and data
+#### 4. Dependencies and data
 
 We do not aim to performance test external dependencies.
 The external data we use in these tests is also a dependency.
@@ -121,14 +128,14 @@ the largest number of referrals and test their happy path still works.
 |ℹ️ Consider testing as a user with a huge referral pool. Develop data generation as a next step.
 |-
 
-### 5. Local development
+#### 5. Local development
 
 Allow developing and trying the test suite without going needing a commit on mainline and full deployment.
 
 |ℹ️ Consider one-line tooling to start the test suite against a target environment with local test code.
 |-
 
-### 6. Concurrency and resetting the environment state
+#### 6. Concurrency and resetting the environment state
 
 Our continuous integration tool (CircleCI) allows multiple concurrent jobs to run.
 Our dependencies can be busy with their tests.
@@ -139,7 +146,7 @@ the sequence or concurrency of each other.
 |ℹ️ Consider writing only reader tests for now, to defer decision on how to deal with concurrency.
 |-
 
-### 7. Team time
+#### 7. Team time
 
 Maintaining such tests will take up team time.
 

@@ -1,21 +1,28 @@
+---
+title: 1. Split user and business interfaces by default
+weight: 71
+last_reviewed_on: 2020-11-02
+review_in: 1 year
+---
+
 # 1. Split user and business interfaces by default
 
 Date: 2020-11-02
 
-## Status
+### Status
 
 Accepted
 
-## Context
+### Context
 
-### Need for sustainable services
+#### Need for sustainable services
 
 The Ministry of Justice 2022 Digital Strategy defines "Building sustainable services" as a priority.
 
 As the domain model of HM Prisons and Probation Service (HMPPS) is big, we aim to build sustainable services
 around [bounded contexts][bounded-context], making it necessary to integrate with other contexts.
 
-### Domain and business logic
+#### Domain and business logic
 
 Historically, many systems built in HMPPS did not expose an API for the business logic and/or were managed by third
 parties, leading to difficult integration: we see business APIs beneficial to have from the start.
@@ -48,7 +55,7 @@ The department's talent pool reflects this split; there are:
 - many Java/Kotlin-focussed backend specialists,
 - a few full-stack developers.
 
-## Decision
+### Decision
 
 We will **create standalone business interfaces (business/domain APIs) by default**.
 
@@ -57,7 +64,7 @@ and better utilise the talent we have.
 
 We realise this is an optimisation to build durable domain-coupled systems at the cost of some team autonomy.
 
-## Consequences
+### Consequences
 
 **Benefits**
 
