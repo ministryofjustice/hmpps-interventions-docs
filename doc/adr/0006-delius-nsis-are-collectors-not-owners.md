@@ -28,7 +28,7 @@ Delius owns the person-on-probation appointments; but they are made _in context 
 
 Currently, this modelled through linking appointments and notifications to NSIs:
 
-![Delius relationships](./0006-delius-nsi-dependencies.svg)
+![Delius relationships](./0006-delius-nsi-dependencies.drawio.svg)
 
 ❗️ **Problem**: if we were to store the link between interventions and Delius NSIs outside Delius,
 it would look as if Delius _created_ both appointments and referrals. We want Delius to
