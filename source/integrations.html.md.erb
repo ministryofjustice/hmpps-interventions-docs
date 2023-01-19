@@ -51,16 +51,14 @@ For features shared across many services.
 | [GOV.uk notify](https://www.notifications.service.gov.uk/) | Sending emails.
 
 
-## Data transfers
+## Scheduled data transfers
 
-We need to transfer our data for further processing. This is done via CronJobs:
+We need to transfer our data for further processing. Transfer is done via CronJobs:
 
 | Component | Responsibility
 |-|-
-| [cronjob/data-extractor-analytics](https://github.com/ministryofjustice/hmpps-interventions-service/blob/main/helm_deploy/hmpps-interventions-service/templates/cronjob-data-extractor-analytics.yaml) | Daily snapshot of raw data, transferred to the [Analytical Platform](https://user-guidance.services.alpha.mojanalytics.xyz/).<br>Used for data cleansing, exploratory analysis and further processing.
-| 🔐 [moj-analytical-services/create-a-derived-table](https://github.com/moj-analytical-services/create-a-derived-table/pull/79/files) | Uses [dbt](https://docs.getdbt.com/) for data modelling to create a [star schema](https://en.wikipedia.org/wiki/Star_schema).<br>Transformed data is propagated further for business intelligence.
+| [cronjob/data-extractor-analytics](https://github.com/ministryofjustice/hmpps-interventions-service/blob/main/helm_deploy/hmpps-interventions-service/Chart.yaml#L8-L10) | Daily snapshot of raw data, transferred to the [Analytical Platform](https://user-guidance.services.alpha.mojanalytics.xyz/).<br>Used for data cleansing, exploratory analysis and further processing.
 | [cronjob/generate-ndmis-performance-report](https://github.com/ministryofjustice/hmpps-interventions-service/blob/main/helm_deploy/hmpps-interventions-service/templates/cronjob-ndmis-performance-report.yaml) | Daily snapshot of transformed data, transferred to National Delius Management Information System (NDMIS).<br>Used for business reporting.
-
 
 [bs-svc]: https://github.com/ministryofjustice/hmpps-interventions-service/blob/main/catalog-info.yaml
 [bs-ui]: https://github.com/ministryofjustice/hmpps-interventions-ui/blob/main/catalog-info.yaml
@@ -68,7 +66,7 @@ We need to transfer our data for further processing. This is done via CronJobs:
 
 ## Static and mapping data
 
-These are data sources that are either indirectly used or embedded in our applications.
+These data sources are either indirectly used or embedded in our applications.
 
 | Dataset | Responsibility
 |-|-
@@ -77,3 +75,53 @@ These are data sources that are either indirectly used or embedded in our applic
 | [Probation regions](https://github.com/ministryofjustice/hmpps-reference-data/blob/main/registers/probation-regions-v0.csv) | List of probation service regions.<br>API database has a copy.
 | [Police and crime commissioner (PCC) regions](https://github.com/ministryofjustice/hmpps-reference-data/blob/main/registers/pcc-regions-for-probation-v0.csv) | List of the probation-specific Police and crime commissioner (PCC) regions, used for Commissioned Rehabilitative Services (CRS).<br>API database has a copy.
 | 🔐 [Interventions seed data](https://github.com/ministryofjustice/hmpps-interventions-seed-data) | Repository to populate contract, prime provider, subcontractor and intervention data.<br>Used as-is.
+
+
+## Data transformation pipeline
+
+We need to transform our data for business intelligence dashboards.
+
+Resource definitions:
+
+| Component | Responsibility
+|-|-
+| [Analytical Platform landing bucket policy][landing-bucket-policy-tf] | Injects the Analytical Platform landing bucket secret to our environment to be used by jobs. Sets up permissions so our namespace can write to that bucket.
+| [Analytical Platform landing bucket definition][landing-bucket-ap] | Creates the landing bucket for our data. The `aws_arn_for_put_permission` is populated from the `user_arn` value from the secret created above.
+| [Modernisation Platform environment][mp-environment] | Defines our Modernisation Platform namespace and the GitHub team access privileges.
+| [Modernisation Platform environment resources][mp-environment-resources] | Defines any resources in the environment. In a sandbox environment, a scheduled job destroys all undefined resources. Those resources must be defined here to prevent deletion.
+| [Modernisation Platform bucket and its policy][mp-target-bucket-policy] | S3 bucket on the Modernisation Platform side that stores the transformed data that powers the dashboards. The bucket policy allows the Analytical Platform lambda to write into it.
+
+[landing-bucket-policy-tf]: https://github.com/ministryofjustice/cloud-platform-environments/blob/main/namespaces/live.cloud-platform.service.justice.gov.uk/hmpps-interventions-prod/resources/analytical-platform-access.tf
+[landing-bucket-ap]: https://github.com/ministryofjustice/register-my-data/blob/main/stacks/hmpps-interventions-prod/config.yaml
+[mp-environment]: https://github.com/ministryofjustice/modernisation-platform/blob/main/environments/refer-monitor.json
+[mp-environment-resources]: https://github.com/ministryofjustice/modernisation-platform-environments/tree/main/terraform/environments/refer-monitor
+[mp-target-bucket-policy]: https://s3.console.aws.amazon.com/s3/buckets/probation-referrals-datawarehouse?region=eu-west-1&tab=permissions
+
+
+Dashboard data propagation happens through:
+
+| Step | Component | Responsibility
+|-|-|-
+| 1 | [generic-data-analytics-extractor helm chart][extractor-helm-chart] | Defines a `CronJob` and adds it to the service deployment that creates daily snapshots from the entire database in the Analytical Platform S3 landing bucket.
+| 2 | [fact, dimension, data mart definitions][dbt-definitions] | Defines the transformations into [fact and dimension tables and data marts](https://docs.getdbt.com/terms/dimensional-modeling) using [dbt](https://docs.getdbt.com/docs/introduction)
+| 3 | [dbt transformation pipeline][dbt-pipeline] | Executes the defined transformations.
+| 4 | [hook to copy to holding area][dbt-hook] | Defines that after a successful transformation, the data must be copied into a "holding area", awaiting transfer.
+| 5 | [copy to Modernisation Platform][ap-push-export] | Defines that the contents of the "holding area" (on change) must be _moved_ from the Analytical Platform to the Modernisation Platform. It creates a lambda function that runs on an on-change event.
+| 6 | [parse schemas with AWS Glue crawlers][aws-glue-crawlers] | Creates and maintains the Modernisation Platform's data sources, making transformed data usable by other tools in the Modernisation Platform.
+| 7 | [mapped data source][aws-data-source] | Defines the schemas of the transformed data (in the Modernisation Platform), directly exposing them to AWS Athena and QuickSight.
+
+[extractor-helm-chart]: https://github.com/ministryofjustice/hmpps-helm-charts/tree/main/charts/generic-data-analytics-extractor
+[dbt-definitions]: https://github.com/moj-analytical-services/create-a-derived-table/tree/main/mojap_derived_tables/models/interventions/probation_referrals
+[dbt-pipeline]: https://github.com/moj-analytical-services/create-a-derived-table/actions/workflows/deploy-daily.yml
+[dbt-hook]: https://github.com/moj-analytical-services/create-a-derived-table/blob/a44b9dcd7ad10bbc03a93a155359637a86a02850/mojap_derived_tables/dbt_project.yml#L34-L38
+[ap-push-export]: https://github.com/moj-analytical-services/data-engineering-exports/blob/main/push_datasets/interventions_to_modplatform.yaml
+[aws-glue-crawlers]: https://eu-west-1.console.aws.amazon.com/glue/home?region=eu-west-1#/v2/data-catalog/crawlers
+[aws-data-source]: https://eu-west-1.console.aws.amazon.com/glue/home?region=eu-west-1#/v2/data-catalog/databases/view/modplatform-interventions-prod?catalogId=534609872573
+
+
+To access the data:
+
+| Step | Component | Action
+|-|-|-
+| 1 | [map datasets from the data source](https://eu-west-1.quicksight.aws.amazon.com/sn/start/data-sets) | Manual step in the Modernisation Platform. Each data source should be a "direct query" unless performance problems arise.
+| 2 | [create analyses in QuickSight](https://eu-west-1.quicksight.aws.amazon.com/sn/start/analyses) | Manual step in the Modernisation Platform. Each analysis should be specific to the business problem.
