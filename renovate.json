@@ -1,0 +1,12 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["github>ministryofjustice/hmpps-renovate-config:base"],
+  "packageRules": [
+    {
+      "matchManagers": ["bundler"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "all non major Ruby dependencies",
+      "groupSlug": "all-ruby-minor-patch"
+    }
+  ]
+}
