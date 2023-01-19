@@ -25,6 +25,8 @@ jobs:
     container:
       image: ministryofjustice/tech-docs-github-pages-publisher:v2
     steps:
+      - name: Install lfs
+        run: apk add --no-cache git-lfs
       - name: Checkout
         uses: actions/checkout@v3
         with:
