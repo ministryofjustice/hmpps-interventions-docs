@@ -1,0 +1,21 @@
+name: Test gh-pages
+
+on:
+  push:
+    branches-ignore:
+      - "main"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: ministryofjustice/tech-docs-github-pages-publisher:v2
+    steps:
+      - name: Install lfs
+        run: apk add --no-cache git-lfs
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          lfs: true
+      - name: Compile Markdown to HTML and create artifact
+        run: /scripts/compile-and-create-artifact.sh
