@@ -5,8 +5,12 @@
     {
       "matchManagers": ["bundler"],
       "matchUpdateTypes": ["minor", "patch"],
-      "groupName": "all non major Ruby dependencies",
-      "groupSlug": "all-ruby-minor-patch"
+      "groupName": "all Ruby dependencies",
+    },
+    {
+      // Date and time definitions in files break with 3.1+ Ruby YAML library, requires middleman 5+ to fix
+      "matchPackageNames": ["ruby"],
+      "allowedVersions": "<3.1"
     }
   ]
 }
