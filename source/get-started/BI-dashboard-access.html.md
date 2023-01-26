@@ -34,13 +34,13 @@ and [this definition](https://github.com/ministryofjustice/modernisation-platfor
 1. Visit [https://moj.awsapps.com/start](https://moj.awsapps.com/start)
 1. Log in with GitHub.
 1. Open the "Management console" button on the `refer-monitor-development` namespace with `modernisation-platform-sandbox` credentials:
-   ![Management console button](images/modplatform-console.png)
+   ![Management console button](../images/modplatform-console.png)
 1. Once in, search for "quicksight":
-   ![Search for QuickSight](images/modplatform-search-quicksight.png)
+   ![Search for QuickSight](../images/modplatform-search-quicksight.png)
 1. After opening it, you should see a page with "Analyses" selected that might look like this:
-   ![QuickSight start page](images/modplatform-quicksight-landing-page.png)
+   ![QuickSight start page](../images/modplatform-quicksight-landing-page.png)
 1. Open one of the "Analyses", and you should see something similar:
-   ![Sample analysis](modplatform-quicksight-sample-analysis.png)
+   ![Sample analysis](../images/modplatform-quicksight-sample-analysis.png)
 
 If you have seen all of the above, you have access!
 
@@ -52,7 +52,7 @@ Most things are auto-saved in QuickSight.
 **❗️ Do not change shared analyses and dashboards for experiments.**
 
 If you want to experiment with something, first **make a copy** with the Save icon:
-![Copy an analysis](modplatform-quicksight-analysis-saveas.png)
+![Copy an analysis](../images/modplatform-quicksight-analysis-saveas.png)
 
 
 [#interventions-dev]: https://mojdt.slack.com/archives/C01DYKJUKDX

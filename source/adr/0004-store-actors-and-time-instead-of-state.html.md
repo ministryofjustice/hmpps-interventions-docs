@@ -28,7 +28,7 @@ People need to use data available from our service to identify performance conce
 
 Knowing _who_ did these actions is also valuable to our data users.
 
-We already use [domain events](0002-decouple-with-events.md) and publish messages when these events happen.
+We already use [domain events](./0002-decouple-with-events.html) and publish messages when these events happen.
 However, these events are crucial to the operation of the service. They are valuable to be available for
 examination **after** the events happened.
 

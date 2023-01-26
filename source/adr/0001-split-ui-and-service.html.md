@@ -81,6 +81,6 @@ We realise this is an optimisation to build durable domain-coupled systems at th
 
 In short, we gain _sustainability_ benefits by trading off _governance_ around the API contracts.
 
-[radar]: https://ministryofjustice.github.io/hmpps-digital-tech-radar/docs/index.html
+[radar]: https://ministryofjustice.github.io/hmpps-digital-tech-radar/
 [cdct]: https://www.thoughtworks.com/radar/techniques/consumer-driven-contract-testing
 [bounded-context]: https://martinfowler.com/bliki/BoundedContext.html

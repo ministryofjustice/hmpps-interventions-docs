@@ -4,7 +4,7 @@ host: https://ministryofjustice.github.io/hmpps-interventions-docs
 # Header-related options
 show_govuk_logo: true
 service_name: Refer and monitor an intervention
-service_link: /hmpps-interventions-docs
+service_link: /
 phase: Tech Docs
 
 # Links to show on right-hand-side of header
