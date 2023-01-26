@@ -23,7 +23,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     container:
-      image: ministryofjustice/tech-docs-github-pages-publisher:v2
+      image: ministryofjustice/tech-docs-github-pages-publisher:v3
     steps:
       - name: Install lfs
         run: apk add --no-cache git-lfs
@@ -32,8 +32,7 @@ jobs:
         with:
           lfs: true
       - name: Compile Markdown to HTML and create artifact
-        run: |
-          /scripts/compile-and-create-artifact.sh
+        run: /scripts/deploy.sh
       - name: Upload artifact to be published
         uses: actions/upload-artifact@main
         with:
