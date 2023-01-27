@@ -35,9 +35,17 @@ and [this definition](https://github.com/ministryofjustice/modernisation-platfor
 1. Log in with GitHub.
 1. Open the "Management console" button on the `refer-monitor-development` namespace with `modernisation-platform-sandbox` credentials:
    ![Management console button](../images/modplatform-console.png)
-1. Once in, search for "quicksight":
-   ![Search for QuickSight](../images/modplatform-search-quicksight.png)
-1. After opening it, you should see a page with "Analyses" selected that might look like this:
+1. Check you see the "AWS console" main page:
+   ![AWS console main page](../images/modplatform-console-main-page.png)
+1. Add yourself to the _refer-monitor-team_ group [here](https://quicksight.aws.amazon.com/sn/console/groups):
+   ![Add yourself to the group](../images/modplatform-quicksight-group-add.png)
+1. Verify access by opening [the shared folders](https://quicksight.aws.amazon.com/sn/folders/public). You must see at least one:
+   ![Shared folders](../images/modplatform-quicksight-shared-folders.png)
+
+
+### Testing access
+
+1. After adding yourself, go to [QuickSight analyses](https://quicksight.aws.amazon.com/sn/start/analyses). You should see a page like this:
    ![QuickSight start page](../images/modplatform-quicksight-landing-page.png)
 1. Open one of the "Analyses", and you should see something similar:
    ![Sample analysis](../images/modplatform-quicksight-sample-analysis.png)
