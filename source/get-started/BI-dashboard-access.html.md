@@ -23,7 +23,16 @@ The Modernisation Platform exposes these data points with [QuickSight](https://a
    with the "Request to join" button in the top right corner.
 1. Ask the team in the [#interventions-dev] Slack channel to approve the team join request.
 
+
+### Wait for your membership to copy across
+
 After joining the GitHub team, it may take up to **six hours** for access to propagate to the Modernisation Platform.
+
+If the sync did not yet happen, you will see:
+
+![SSO sync not happened](../images/modplatform-sso-sync-not-happened.png)
+
+If this happens, please try again in a few hours.
 
 If you need immediate access, please [#ask-operations-engineering] to manually run the SSO Sync job, referring to this guide
 and [this definition](https://github.com/ministryofjustice/modernisation-platform/blob/4b7becb4a7162fd59039b9e1c1d65b9d2d1e79e8/environments/refer-monitor.json#L12).
@@ -35,9 +44,17 @@ and [this definition](https://github.com/ministryofjustice/modernisation-platfor
 1. Log in with GitHub.
 1. Open the "Management console" button on the `refer-monitor-development` namespace with `modernisation-platform-sandbox` credentials:
    ![Management console button](../images/modplatform-console.png)
-1. Once in, search for "quicksight":
-   ![Search for QuickSight](../images/modplatform-search-quicksight.png)
-1. After opening it, you should see a page with "Analyses" selected that might look like this:
+1. Check you see the "AWS console" main page:
+   ![AWS console main page](../images/modplatform-console-main-page.png)
+1. Add yourself to the _refer-monitor-team_ group [here](https://quicksight.aws.amazon.com/sn/console/groups):
+   ![Add yourself to the group](../images/modplatform-quicksight-group-add.png)
+1. Verify access by opening [the shared folders](https://quicksight.aws.amazon.com/sn/folders/public). You must see at least one:
+   ![Shared folders](../images/modplatform-quicksight-shared-folders.png)
+
+
+### Testing access
+
+1. After adding yourself, go to [QuickSight analyses](https://quicksight.aws.amazon.com/sn/start/analyses). You should see a page like this:
    ![QuickSight start page](../images/modplatform-quicksight-landing-page.png)
 1. Open one of the "Analyses", and you should see something similar:
    ![Sample analysis](../images/modplatform-quicksight-sample-analysis.png)
