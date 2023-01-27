@@ -23,7 +23,16 @@ The Modernisation Platform exposes these data points with [QuickSight](https://a
    with the "Request to join" button in the top right corner.
 1. Ask the team in the [#interventions-dev] Slack channel to approve the team join request.
 
+
+### Wait for your membership to copy across
+
 After joining the GitHub team, it may take up to **six hours** for access to propagate to the Modernisation Platform.
+
+If the sync did not yet happen, you will see:
+
+![SSO sync not happened](../images/modplatform-sso-sync-not-happened.png)
+
+If this happens, please try again in a few hours.
 
 If you need immediate access, please [#ask-operations-engineering] to manually run the SSO Sync job, referring to this guide
 and [this definition](https://github.com/ministryofjustice/modernisation-platform/blob/4b7becb4a7162fd59039b9e1c1d65b9d2d1e79e8/environments/refer-monitor.json#L12).
