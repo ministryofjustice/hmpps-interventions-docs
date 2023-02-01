@@ -1,7 +1,7 @@
 ---
 title: List deployed versions
 weight: 56
-last_reviewed_on: 2023-01-31
+last_reviewed_on: 2023-02-01
 review_in: 1 year
 ---
 
@@ -22,3 +22,6 @@ Therefore, we need a convenient way to tell us what changes are not yet live.
 1. Use `./versions.sh`
 
    Example output: ![Example version.sh output](../images/ops-version-sample.png)
+
+
+[ops-repo]: https://github.com/ministryofjustice/hmpps-interventions-ops
