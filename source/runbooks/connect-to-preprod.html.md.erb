@@ -1,7 +1,7 @@
 ---
 title: Connect to pre-production data
 weight: 51
-last_reviewed_on: 2022-09-07
+last_reviewed_on: 2023-02-02
 review_in: 1 year
 ---
 
@@ -36,14 +36,14 @@ Forwarding from [::1]:5433 -> 5432
 Then, you can connect locally:
 
 ```
-psql -h localhost -p 5433 -U cpS00AbRsu dba326b0ca8eb97132
+psql -h localhost -p 5433 -U cpunRCHNiS db6a9cfbef8ecc3a97
 ```
 
 The password to use is in:
 
 ```
 cloud-platform decode-secret \
-  --secret=postgres \
+  --secret=postgres14 \
   --namespace=hmpps-interventions-preprod
 ```
 
