@@ -23,9 +23,11 @@ This page explains how a day on the ops rotation works. In this role, our respon
 
 1. Check [#interventions-alerts] for any AlertManager (Kubernetes) errors.
 
+1. Check [#interventions-alerts] for any [exceptions](../monitoring.html#exceptions).
+
 1. Check `kubectl get pods --namespace=hmpps-interventions-prod` for any errors, backoffs, or excessive restarts.
 
-1. Check Kibana for [pod logs][kibana-pod-logs] and [ingress logs][kibana-ingress-logs] for any errors or problems.
+1. Check the [logs](../monitoring.html#logs) for any errors or problems.
 
 1. 🙋 Extend this documentation with more specific tips.
 
