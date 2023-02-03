@@ -50,6 +50,7 @@ Monitoring the health of services that we do not operate.
 
 Request access to AppInsights [here][appinsights-access].
 
+1. [Azure Application Insights][appinsights] supports cross-application request tracing.
 1. [uptime-kuma] monitors the availability of our dependencies.
 1. [Grafana dashboard][grafana-dashboard] has panels about 99th and 100th percentile response times from API to other services.
 1. [The dependency fail AppInsights chart][appinsights-dep-errors] tracks how often we fail to receive a response from a dependency.
@@ -69,8 +70,7 @@ Request access to AppInsights [here][appinsights-access].
 
 <%= warning_text("hmpps-interventions-ui does not (yet) expose metrics to Prometheus.") %>
 
-1. [Azure Application Insights][appinsights] supports cross-application request tracing.
-1. [Azure Application Insights][appinsights] also ingests all metrics from Node and Java/Kotlin applications.
+1. [Azure Application Insights][appinsights] also ingests all Node and Java/Kotlin application metrics.
 1. [Prometheus] allows us to query live metrics directly.
 1. [Thanos][thanos] allows us to query historical metrics.
 1. [Grafana dashboard][grafana-dashboard] has panels about database transactions waiting, slowest API requests, garbage collection time.
