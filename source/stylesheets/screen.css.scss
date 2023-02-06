@@ -1,1 +1,6 @@
 @import "govuk_tech_docs";
+
+p.definition {
+  background: govuk-colour("light-grey");
+  padding: govuk-spacing(3);
+}

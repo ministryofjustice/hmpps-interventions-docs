@@ -1,0 +1,114 @@
+---
+title: Monitoring
+weight: 25
+last_reviewed_on: 2023-02-03
+review_in: 6 months
+---
+
+# <%= current_page.data.title %>
+
+## Uptime
+
+<p class="definition">
+Monitors and notifies us when a component no longer appears to be working.
+</p>
+
+1. We define [Pingdom] uptime alerts in [our Cloud Platform namespace][pingdom-tf]. Routed to [#interventions].
+1. We deploy [uptime-kuma] via [our operational scripts][hmpps-interventions-ops], routed to [#interventions-alerts].
+   The login credentials are in `cloud-platform decode-secret -s uptime-monitor-login -n hmpps-interventions-prod`.
+
+
+## Exceptions
+
+<p class="definition">
+Captures and notifies us about unexpected errors in the running applications.
+</p>
+
+1. We use [Sentry] for exception monitoring, routed to [#interventions-alerts].
+
+
+## Infrastructure metrics
+
+<p class="definition">
+Infrastructure metrics monitor resource usage: CPU, memory, bandwidth, latency, storage space, etc.
+</p>
+
+We use Cloud Platform's [observability stack](https://user-guide.cloud-platform.service.justice.gov.uk/documentation/monitoring-an-app/prometheus.html).
+
+1. [Prometheus] allows us to query live metrics directly.
+1. [Thanos][thanos] allows us to query historical metrics.
+1. We have our own [Grafana dashboard][grafana-dashboard], defined [here][grafana-definition].
+1. [Alert definitions][cp-alerts] allow us to configure [AlertManager] on any metric available in Prometheus.
+   These go to [#interventions-alerts].
+
+
+## Dependency monitoring
+
+<p class="definition">
+Monitoring the health of services that we do not operate.
+</p>
+
+Request access to AppInsights [here][appinsights-access].
+
+1. [Azure Application Insights][appinsights] supports cross-application request tracing.
+1. [uptime-kuma] monitors the availability of our dependencies.
+1. [Grafana dashboard][grafana-dashboard] has panels about 99th and 100th percentile response times from API to other services.
+1. [The dependency fail AppInsights chart][appinsights-dep-errors] tracks how often we fail to receive a response from a dependency.
+1. [The dependency spread AppInsights query][appinsights-dep-spread] tracks which endpoint fails with which dependency.
+
+
+## Application and business metrics
+
+<p class="definition">
+Application metrics focus on throughput and performance, while business metrics focus on significant user behaviour (e.g. pivotal events).
+</p>
+
+Spring Boot can expose business metrics via the micrometer library [(example)][micrometer-example]. These will be available in both
+[Azure Application Insights][appinsights] and [Prometheus].
+
+Request access to AppInsights [here][appinsights-access].
+
+<%= warning_text("hmpps-interventions-ui does not (yet) expose metrics to Prometheus.") %>
+
+1. [Azure Application Insights][appinsights] also ingests all Node and Java/Kotlin application metrics.
+1. [Prometheus] allows us to query live metrics directly.
+1. [Thanos][thanos] allows us to query historical metrics.
+1. [Grafana dashboard][grafana-dashboard] has panels about database transactions waiting, slowest API requests, garbage collection time.
+1. [Alert definitions][cp-alerts] allow us to configure [AlertManager] on application metric anomalies.
+
+
+## Logs
+
+<p class="definition">
+All our applications log to stdout in containers, which are then centrally collected.
+</p>
+
+1. [Kibana pod logs][kibana-pod-logs] contain logs from applications, one-off jobs, and everything that runs in pods.
+1. [Kibana ingress logs][kibana-ingress-logs] contain all HTTP requests and responses received by the ingress in front of our applications.
+   These logs also have [modsecurity] \(Web Application Firewall\) entries for blocked request (HTTP 423 status) investigations.
+
+
+[Pingdom]: https://my.pingdom.com/app/reports/uptime#check=8252827
+[uptime-kuma]: https://status-refer-monitor-intervention.apps.live.cloud-platform.service.justice.gov.uk/dashboard
+[Sentry]: https://sentry.io/organizations/ministryofjustice/issues/?project=5807819&project=5807822
+[AlertManager]: https://alertmanager.cloud-platform.service.justice.gov.uk/#/status
+[Prometheus]: https://prometheus.live.cloud-platform.service.justice.gov.uk/
+[Thanos]: https://thanos.live.cloud-platform.service.justice.gov.uk/
+[appinsights]: https://portal.azure.com/?vn4ibvey6jeghdom2ldemygrym=ak6bexx72na6rggvqysaawd434#@nomsdigitechoutlook.onmicrosoft.com/dashboard/arm/subscriptions/a5ddf257-3b21-4ba9-a28c-ab30f751b383/resourcegroups/dashboards/providers/microsoft.portal/dashboards/a84c5e90-0a7d-4b4a-a1b5-2dd9bdfac213
+
+[appinsights-dashboard]: https://portal.azure.com/?vn4ibvey6jeghdom2ldemygrym=ak6bexx72na6rggvqysaawd434#@nomsdigitechoutlook.onmicrosoft.com/dashboard/arm/subscriptions/a5ddf257-3b21-4ba9-a28c-ab30f751b383/resourcegroups/dashboards/providers/microsoft.portal/dashboards/e3457d9a-d5c9-45a3-8f11-6d7aab6f80c7
+[appinsights-dep-errors]: https://portal.azure.com#@747381f4-e81f-4a43-bf68-ced6a1e14edf/blade/Microsoft_OperationsManagementSuite_Workspace/Logs.ReactView/resourceId/%2Fsubscriptions%2Fa5ddf257-3b21-4ba9-a28c-ab30f751b383%2FresourceGroups%2Fnomisapi-prod-rg%2Fproviders%2Fmicrosoft.insights%2Fcomponents%2Fnomisapi-prod/source/LogsBlade.AnalyticsShareLinkToQuery/q/H4sIAAAAAAAAA22QTU7EMAyF93MK000TqZWKBGJDZ8OeBRdAaeKh1iROlR%252BqIg6Pi9CMBHhlOe%252BzX57DBdkhW8J8%252BIR1xoSQq7WYM4wjnIzPeAApww6sj9W9vkSPzyYgEINqiQumd%252BRCkXNfqe3g1yxLTxZbfdmjShSJSpirL0%252FRoYbjCPfDADHB37dHuBuGK11MesMCN1maklcqMzRzWJbc%252F3u3uYIUUKCw7Ne%252B6XhyZlMcV9U%252FOK0lgVxDMIk%252BEGys4kPDtMFErC5wB7dOdz8uhEh7gEnkvga2s2yF3ZM6E7uxsjD2jK6DrVDxODZcwyT6eJJwyVf5aKO%252FAIRz2POHAQAA
+[appinsights-dep-spread]: https://portal.azure.com#@747381f4-e81f-4a43-bf68-ced6a1e14edf/blade/Microsoft_OperationsManagementSuite_Workspace/Logs.ReactView/resourceId/%2Fsubscriptions%2Fa5ddf257-3b21-4ba9-a28c-ab30f751b383%2FresourceGroups%2Fnomisapi-prod-rg%2Fproviders%2Fmicrosoft.insights%2Fcomponents%2Fnomisapi-prod/source/LogsBlade.AnalyticsShareLinkToQuery/q/H4sIAAAAAAAAA41Ry07DMBC88xVLLk1ULAIC8RDhwp0DV1RVxt60VmM78tqUAv131i205aGKXDJez%252Bx6ZzT26DQ6ZZAO3mE%252BxYBASSkkgqaBVnaEB8CfdBpU55MeP%252FgO76VFMA7KgXERwzO6aLwjkczgCH7UiLFROKg2fcromVIGpNTFO6%252BxgtsGzusafIDfdzdwVtdbdZRhghEOiUGkuYlTKKa270n8ObfYCo1FFtk%252BT1upfavlonR%252BXooLXVXsAL5ENgRItujyjg0E7DupcBxwgi%252Fl95PvMcg8bZwNOYLisRZXUrSjt8ul2OCzf%252BCT02XB%252BuuUjC4qRsf5ajTMxeNrl2yRX0fJWhnM62ckRBxTo3zijdvy05ddW9YMEQzNSLAFwiFq4v4rvfLWJmfiYl%252BLDUnI3nwpZYrTfSIyE8dpfNGjn6F7xmBao1Z27dOuyGKXXayzf1psYmErfNAYcq1cLwnD7T6M8wv592tyBRpJfQDqRoV39wIAAA%253D%253D
+[pingdom-tf]: https://github.com/ministryofjustice/cloud-platform-environments/blob/main/namespaces/live.cloud-platform.service.justice.gov.uk/hmpps-interventions-prod/resources/pingdom.tf
+[hmpps-interventions-ops]: https://github.com/ministryofjustice/hmpps-interventions-ops
+[cp-alerts]: https://github.com/ministryofjustice/cloud-platform-environments/blob/main/namespaces/live.cloud-platform.service.justice.gov.uk/hmpps-interventions-prod/10-alerts.yaml
+[grafana-dashboard]: https://grafana.live.cloud-platform.service.justice.gov.uk/d/PyQ91ARnk/hmpps-refer-and-monitor-an-intervention?orgId=1&from=now-3h&to=now
+[grafana-definition]: https://github.com/ministryofjustice/hmpps-interventions-service/blob/main/helm_deploy/hmpps-interventions-service/templates/grafana-dashboard.yml
+[appinsights-access]: https://github.com/ministryofjustice/dso-infra-azure-ad#self-service-workflow
+[micrometer-example]: https://github.com/ministryofjustice/hmpps-interventions-service/blob/488c5ed9684f85e12ab9be9c014b463492ac811d/src/main/kotlin/uk/gov/justice/digital/hmpps/hmppsinterventionsservice/service/listeners/ReferralMetricsListener.kt#L33
+[kibana-pod-logs]: https://kibana.cloud-platform.service.justice.gov.uk/_plugin/kibana/app/discover#/view/70ddf910-97df-11ed-ae16-ef32c250fb53?_g=(filters%3A!()%2CrefreshInterval%3A(pause%3A!t%2Cvalue%3A0)%2Ctime%3A(from%3Anow-0d%2Fd%2Cto%3Anow))
+[kibana-ingress-logs]: https://kibana.cloud-platform.service.justice.gov.uk/_plugin/kibana/app/discover#/view/dc3efc90-97df-11ed-81cd-e3a96a1418c1?_g=(filters%3A!()%2CrefreshInterval%3A(pause%3A!t%2Cvalue%3A0)%2Ctime%3A(from%3Anow-0d%2Fd%2Cto%3Anow))
+[modsecurity]: https://user-guide.cloud-platform.service.justice.gov.uk/documentation/networking/modsecurity.html
+
+[#interventions]: https://mojdt.slack.com/archives/CLA97UR7D
+[#interventions-alerts]: https://mojdt.slack.com/archives/C022FKANS87
