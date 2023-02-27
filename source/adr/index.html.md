@@ -15,3 +15,4 @@ review_in: 1 year
 * [6. Treat Delius NSIs as collectors, not owners of interventions](./0006-delius-nsis-are-collectors-not-owners.html)
 * [7. Integrate performance testing into the continuous integration pipeline](./0007-integrate-performance-testing-into-pipeline.html)
 * [8. Measure feature impact with dbt and QuickSight](./0008-measure-feature-impact-with-dbt-and-quicksight.html)
+* [9. Validating user-given custody data with prison data](./0009-validate-user-custody-data-with-prison-data.html)
