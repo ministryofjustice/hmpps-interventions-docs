@@ -1,4 +1,5 @@
 # Technical Documentation
+This is the source for the Interventions technical documentation which can be found [here](https://ministryofjustice.github.io/hmpps-interventions-docs/index.html)
 
 This project uses the [Tech Docs Template][template], which is a [Middleman template][mmt] that you can use to build technical documentation using a GOV.UK style.
 
