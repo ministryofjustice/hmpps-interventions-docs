@@ -5,32 +5,38 @@ last_reviewed_on: 2023-11-14
 review_in: 1 year
 ---
 
-# When the DB cpu is 100 %, try restarting the pods first
+# When the DB cpu utilization is 100%
 
-### commands restarting the pods, do it one by one
+### try restarting the pods one by one
 
 ```
+
 kubectl rollout restart deployment hmpps-interventions-service-dashboard -n hmpps-interventions-prod
 kubectl rollout restart deployment hmpps-interventions-service-api -n hmpps-interventions-prod
 kubectl rollout restart deployment hmpps-interventions-ui -n hmpps-interventions-prod
 kubectl rollout restart deployment hmpps-interventions-service-performance-report -n hmpps-interventions-prod
+
 ```
 
-### If the above commands does not bring the db cpu down, trying scaling down and scale support up
+### If the above commands does not bring the db cpu utilization down, trying scaling down and scale up the pods
 
 ### commands for scaling down
 
 ```
-kubectl scale deployment hmpps-interventions-service-api -n hmpps-interventions-prod --replicas=0
+
 kubectl scale deployment hmpps-interventions-service-dashboard -n hmpps-interventions-prod --replicas=0
-kubectl scale deployment hmpps-interventions-service-performance-report -n hmpps-interventions-prod --replicas=0
+kubectl scale deployment hmpps-interventions-service-api -n hmpps-interventions-prod --replicas=0
 kubectl scale deployment hmpps-interventions-ui -n hmpps-interventions-prod --replicas=0
+kubectl scale deployment hmpps-interventions-service-performance-report -n hmpps-interventions-prod --replicas=0
+
 ```
 ### commands for scaling up
 
 ```
-kubectl scale deployment hmpps-interventions-service-api -n hmpps-interventions-prod --replicas=3
+
 kubectl scale deployment hmpps-interventions-service-dashboard -n hmpps-interventions-prod --replicas=2
-kubectl scale deployment hmpps-interventions-service-performance-report -n hmpps-interventions-prod --replicas=1
+kubectl scale deployment hmpps-interventions-service-api -n hmpps-interventions-prod --replicas=3
 kubectl scale deployment hmpps-interventions-ui -n hmpps-interventions-prod --replicas=3
+kubectl scale deployment hmpps-interventions-service-performance-report -n hmpps-interventions-prod --replicas=1
+
 ```
