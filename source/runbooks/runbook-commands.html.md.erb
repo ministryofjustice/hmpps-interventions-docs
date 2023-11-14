@@ -7,7 +7,7 @@ review_in: 1 year
 
 # When the DB cpu is 100 %, try restarting the pods first
 
-## commands restarting the pods, do it one by one
+### commands restarting the pods, do it one by one
 
 ```
 kubectl rollout restart deployment hmpps-interventions-service-dashboard -n hmpps-interventions-prod
@@ -16,7 +16,7 @@ kubectl rollout restart deployment hmpps-interventions-ui -n hmpps-interventions
 kubectl rollout restart deployment hmpps-interventions-service-performance-report -n hmpps-interventions-prod
 ```
 
-## If the above commands does not bring the db cpu down, trying scaling down and scale support up
+### If the above commands does not bring the db cpu down, trying scaling down and scale support up
 
 ### commands for scaling down
 
