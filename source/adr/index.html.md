@@ -1,7 +1,7 @@
 ---
 title: Architecture Decision Records
 weight: 70
-last_reviewed_on: 2023-01-09
+last_reviewed_on: 2025-03-05
 review_in: 1 year
 ---
 

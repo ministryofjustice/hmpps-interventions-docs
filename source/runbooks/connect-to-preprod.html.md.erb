@@ -1,7 +1,7 @@
 ---
 title: Connect to pre-production data
 weight: 51
-last_reviewed_on: 2023-02-02
+last_reviewed_on: 2025-03-05
 review_in: 1 year
 ---
 
@@ -44,6 +44,21 @@ The password to use is in:
 ```
 cloud-platform decode-secret \
   --secret=postgres14 \
+  --namespace=hmpps-interventions-preprod
+```
+
+Now we have read-replica for each namespace which is used for reporting / read only load.
+
+To connect to read-replica, make a copy of setup_preprod_port_forward.sh and rename appropriately (e.g. setup_preprod_replica_port_forward.sh). Make appropriate changes to point to read replica database.
+
+```
+./setup_preprod_replica_port_forward.sh
+```
+The password to use is in:
+
+```
+cloud-platform decode-secret \
+  --secret=hmpps-interventions-postgres14-rds-replica-output \
   --namespace=hmpps-interventions-preprod
 ```
 

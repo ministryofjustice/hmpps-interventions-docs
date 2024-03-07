@@ -19,3 +19,6 @@
 
 Staticfile.auth
 docs/
+
+# Ignore the IDE files
+.idea

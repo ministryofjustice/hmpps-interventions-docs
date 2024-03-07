@@ -1,7 +1,7 @@
 ---
 title: 5. For release, prioritise consistency over availability
 weight: 75
-last_reviewed_on: 2021-06-03
+last_reviewed_on: 2025-03-05
 review_in: 1 year
 ---
 
