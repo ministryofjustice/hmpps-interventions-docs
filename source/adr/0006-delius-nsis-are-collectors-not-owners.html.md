@@ -1,7 +1,7 @@
 ---
 title: 6. Treat Delius NSIs as collectors, not owners of interventions
 weight: 76
-last_reviewed_on: 2021-05-27
+last_reviewed_on: 2025-03-05
 review_in: 1 year
 ---
 

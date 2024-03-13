@@ -1,7 +1,7 @@
 ---
 title: 8. Measure feature impact with dbt and QuickSight
 weight: 78
-last_reviewed_on: 2023-02-16
+last_reviewed_on: 2025-03-05
 review_in: 1 year
 ---
 

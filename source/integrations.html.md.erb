@@ -1,7 +1,7 @@
 ---
 title: Integrations
 weight: 30
-last_reviewed_on: 2023-01-09
+last_reviewed_on: 2024-09-06
 review_in: 6 months
 ---
 
@@ -36,8 +36,10 @@ Used to display or process someone's information that does not belong in interve
 
 | API | Responsibility
 | - | -
-| [community-api](https://github.com/ministryofjustice/community-api) | Reading personal details, someone's responsible officers, officer teams.<br>Writing activities (NSIs), appointments, appointment outcomes, and progress notifications.
+| [hmpps-probation-integration-api](https://github.com/ministryofjustice/hmpps-probation-integration-services) | Replacement of Community API which is slow and bulky. This is used for reading personal details, someone's responsible officers, officer teams.<br>Writing activities (NSIs), appointments, appointment outcomes, and progress notifications.
+| [community-api](https://github.com/ministryofjustice/community-api) | Reading personal details, someone's responsible officers, officer teams.<br>Writing activities (NSIs), appointments, appointment outcomes, and progress notifications. The plan is to remove usage of commiunity-api
 | [hmpps-assess-risk-and-needs](https://github.com/ministryofjustice/hmpps-assess-risks-and-needs) | Reading risk information.<br>Writing supplementary (redacted) risk information.
+| [hmpps-prisoner-search](https://github.com/ministryofjustice/hmpps-prisoner-search) | Reading prisoner information.<br>This includes prison location and the release dates.
 
 
 ## Platform services

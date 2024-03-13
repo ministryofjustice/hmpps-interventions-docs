@@ -1,7 +1,7 @@
 ---
 title: 7. Integrate performance testing into the continuous integration pipeline
 weight: 77
-last_reviewed_on: 2022-08-31
+last_reviewed_on: 2025-03-05
 review_in: 1 year
 ---
 

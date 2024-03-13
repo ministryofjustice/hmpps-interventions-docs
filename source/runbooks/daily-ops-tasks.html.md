@@ -1,7 +1,7 @@
 ---
 title: Daily ops tasks
 weight: 50.1
-last_reviewed_on: 2023-01-12
+last_reviewed_on: 2024-09-07
 review_in: 6 months
 ---
 
@@ -9,12 +9,12 @@ review_in: 6 months
 
 This page explains how a day on the ops rotation works. In this role, our responsibility is to:
 
-| Responsibility | Why |
-| --- | --- |
-| Keep the service's integrity | Data cannot be corrupted. ("Service" is the entire "Refer and monitor an intervention", not just the API.) |
-| Secure the service | Security issues must be fixed immediately. |
+| Responsibility | Why                                                                                                                                               |
+| --- |---------------------------------------------------------------------------------------------------------------------------------------------------|
+| Keep the service's integrity | Data cannot be corrupted. ("Service" is the entire "Refer and monitor an intervention", not just the API.)                                        |
+| Secure the service | Security issues must be fixed immediately. This includes any build failures because of security vulnerabilities.                                  |
 | Keep the service performant | Tolerances (CPU/memory/database storage/query performance) must be monitored. It cannot run out of pod limits, storage space or network bandwith. |
-| Reduce alert noise | Only actionable, real problems should create alerts. Everything else should be a dashboard. |
+| Reduce alert noise | Only actionable, real problems should create alerts. Everything else should be a dashboard.                                                       |
 
 
 ### Checklist

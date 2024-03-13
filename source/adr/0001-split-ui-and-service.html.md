@@ -1,7 +1,7 @@
 ---
 title: 1. Split user and business interfaces by default
 weight: 71
-last_reviewed_on: 2020-11-02
+last_reviewed_on: 2025-03-05
 review_in: 1 year
 ---
 
