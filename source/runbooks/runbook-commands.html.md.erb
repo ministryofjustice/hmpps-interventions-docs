@@ -40,3 +40,33 @@ kubectl scale deployment hmpps-interventions-ui -n hmpps-interventions-prod --re
 kubectl scale deployment hmpps-interventions-service-performance-report -n hmpps-interventions-prod --replicas=1
 
 ```
+
+### sample command for cascade deleting draft referrals based on a condition
+
+```
+delete from referral_service_user_data where referral_id in (select dr.id from draft_referral dr
+left outer join referral r on dr.id = r.id
+where r.id is null and dr.created_at <= CURRENT_DATE - INTERVAL '90 days')
+
+delete from referral_details where referral_id in (select dr.id from draft_referral dr
+left outer join referral r on dr.id = r.id
+where r.id is null and dr.created_at <= CURRENT_DATE - INTERVAL '90 days')
+
+delete from draft_oasys_risk_information where referral_id in (select dr.id from draft_referral dr
+left outer join referral r on dr.id = r.id
+where r.id is null and dr.created_at <= CURRENT_DATE - INTERVAL '90 days')
+
+delete from referral_complexity_level_ids where referral_id in (select dr.id from draft_referral dr
+left outer join referral r on dr.id = r.id
+where r.id is null and dr.created_at <= CURRENT_DATE - INTERVAL '90 days')
+
+delete from referral_selected_service_category where referral_id in (select dr.id from draft_referral dr
+left outer join referral r on dr.id = r.id
+where r.id is null and dr.created_at <= CURRENT_DATE - INTERVAL '90 days')
+
+delete from draft_referral where id in (select dr.id from draft_referral dr
+left outer join referral r on dr.id = r.id
+where r.id is null and dr.created_at <= CURRENT_DATE - INTERVAL '90 days')
+
+
+
