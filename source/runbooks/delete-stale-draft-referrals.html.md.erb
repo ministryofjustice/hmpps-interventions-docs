@@ -7,12 +7,10 @@ review_in: 1 year
 
 # Deleting stale draft referrals
 
-
-```
-
 ### sample command for cascade deleting draft referrals based on a condition
 
 ```
+
 delete from referral_service_user_data where referral_id in (select dr.id from draft_referral dr
 left outer join referral r on dr.id = r.id
 where r.id is null and dr.created_at <= CURRENT_DATE - INTERVAL '90 days')
@@ -36,6 +34,8 @@ where r.id is null and dr.created_at <= CURRENT_DATE - INTERVAL '90 days')
 delete from draft_referral where id in (select dr.id from draft_referral dr
 left outer join referral r on dr.id = r.id
 where r.id is null and dr.created_at <= CURRENT_DATE - INTERVAL '90 days')
+
+```
 
 
 
